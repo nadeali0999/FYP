@@ -21,7 +21,7 @@
                         <div class="media d-flex">
                             <div class="me-5">
                                 <!-- Icon -->
-                              <i class="fa fa-map-marker" style="font-size:36px"></i>
+                                <i class="fa fa-map-marker" style="font-size:36px"></i>
 
                             </div>
                             <div class="media-body flex-shrink-1">
@@ -43,7 +43,7 @@
                             <div class="media-body flex-shrink-1">
                                 <h5 class="mb-4">Phone</h5>
                                 <a class="text-gray-800 d-block">0349-4233608</a>
-                                <a  class="text-gray-800 d-block">0306-1612447</a>
+                                <a class="text-gray-800 d-block">0306-1612447</a>
                             </div>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                         <div class="media d-flex">
                             <div class="me-5">
                                 <!-- Icon -->
-                               <i class="fa fa-pencil" style="font-size:34px"></i>
+                                <i class="fa fa-pencil" style="font-size:34px"></i>
 
                             </div>
                             <div class="media-body flex-shrink-1">
@@ -77,30 +77,45 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
-            <div class="col-md">
+            <div class="container">
                 <h1 class="mb-6">Have A Question?</h1>
-                <form class="row" method="post">
+                <form class="row" method="post" action="{% url 'contact' %}">
                     {% csrf_token %}
                     <div class="form-group mb-6 col-xl-6">
                         <label for="exampleInputTitle1">Name</label>
-                        <input type="text" class="form-control placeholder-1" id="exampleInputTitle1" placeholder="Enter your name"
-                               name="name">
+                        <input type="text" class="form-control placeholder-1" id="exampleInputTitle1"
+                               placeholder="Enter your name" name="name">
+                        {% if form.name.errors %}
+                            <div class="text-danger">
+                                {{ form.name.errors }}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="form-group mb-6 col-xl-6">
                         <label for="exampleInputTitle2">Email</label>
-                        <input type="email" class="form-control placeholder-1" id="exampleInputTitle2" placeholder="Enter your Email"
-                               name="email">
+                        <input type="email" class="form-control placeholder-1" id="exampleInputTitle2"
+                               placeholder="Enter your Email" name="email">
+                        {% if form.email.errors %}
+                            <div class="text-danger">
+                                {{ form.email.errors }}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="form-group mb-6 col-12">
                         <label for="exampleFormControlTextarea1">Message</label>
                         <textarea class="form-control placeholder-1" id="exampleFormControlTextarea1" rows="6"
-                                  placeholder="Write your message " name="message"></textarea>
+                                  placeholder="Write your message" name="message"></textarea>
+                        {% if form.message.errors %}
+                            <div class="text-danger">
+                                {{ form.message.errors }}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="col-12">
@@ -108,6 +123,7 @@
                     </div>
                 </form>
             </div>
+
         </div>
 
     </div>

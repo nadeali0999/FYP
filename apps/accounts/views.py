@@ -2,14 +2,26 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, View, FormView
 
 from apps.courses.models import Categories, Course
+from .forms import ContactForm
 from .forms import loginForm
 
 
 class BaseView(TemplateView):
     template_name = 'base.html'
+
+
+class ContactView(FormView):
+    template_name = 'main/contact_us.html'
+    form_class = ContactForm
+    success_url = reverse_lazy('contact_success')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 
 class errorView(TemplateView):

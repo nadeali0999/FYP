@@ -15,5 +15,7 @@ urlpatterns = [
      path('aboutus/', about_usView.as_view(), name='about_us'),
      path('contact_us/', contact_usView.as_view(), name='contact_us'),
      path('404/', errorView.as_view(), name='404'),
+     path('contact/', ContactView.as_view(), name='contact'),
+     path('contact/success/', TemplateView.as_view(template_name="main/contact_success.html"), name='contact_success'),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
