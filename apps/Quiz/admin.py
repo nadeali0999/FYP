@@ -11,4 +11,4 @@ class QuizAdmin(admin.ModelAdmin):
     inlines = [QuestionTabularInline]  # Only include QuestionTabularInline
 
 
-admin.site.register(Quiz, QuizAdmin)  # admin.site.register(Question)
+ # admin.site.register(Question)

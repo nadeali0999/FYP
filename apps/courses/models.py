@@ -3,6 +3,8 @@ from django.db.models.signals import pre_save
 from django.urls import reverse
 from django.utils.text import slugify
 
+from apps.instructor.models import Author
+
 
 class Categories(models.Model):
     icon = models.CharField(max_length=200, null=True)
@@ -14,15 +16,6 @@ class Categories(models.Model):
     @staticmethod
     def get_all_categories():
         return Categories.objects.all().order_by('id')
-
-
-class Author(models.Model):
-    author_profile = models.ImageField(upload_to="Media/author")
-    name = models.CharField(max_length=100, null=True)
-    about_author = models.TextField()
-
-    def __str__(self):
-        return self.name
 
 
 class Level(models.Model):
@@ -38,6 +31,7 @@ class Language(models.Model):
     def __str__(self):
         return self.language
 
+
 class Course(models.Model):
     STATUS = (('PUBLISH', 'PUBLISH'), ('DRAFT', 'DRAFT'),)
 
@@ -47,7 +41,7 @@ class Course(models.Model):
     created_at = models.DateField(auto_now_add=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
-    language = models.ForeignKey(Language, on_delete=models.CASCADE , null=True)
+    language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True)
     level = models.ForeignKey(Level, on_delete=models.CASCADE, null=True)
     description = models.TextField()
     price = models.IntegerField(null=True, default=0)
@@ -59,6 +53,7 @@ class Course(models.Model):
 
     def get_slug(self):
         return reverse("course_details", kwargs={'slug': self.slug})
+
 
 class what_to_learn(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)

@@ -10,6 +10,7 @@ urlpatterns = [
     path('payments/', include('apps.payments.urls')),
     path('courses/', include('apps.courses.urls')),
     path('Quiz/', include('apps.Quiz.urls')),
+    path('instructor/', include('apps.instructor.urls')),
 
 
 ]
