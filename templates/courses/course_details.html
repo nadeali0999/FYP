@@ -245,21 +245,21 @@
 
 
                     <div class="pt-5 pb-4 px-5 px-lg-3 px-xl-5">
-                        {% if course.price == 0 %}
+{#                        {% if course.price == 0 %}#}
                             <div class="d-flex align-items-center mb-2">
                                 <ins class="h2 mb-0">Free</ins>
                             </div>
-                        {% else %}
+{#                        {% else %}#}
                             <div class="d-flex align-items-center mb-2">
                                 <ins class="h2 mb-0">{{ course.price }} $</ins>
                             </div>
-                        {% endif %}
-                        {% if is_enrolled %}
+                      {% comment %}  {% endif %}{% endcomment %}
+{#                        {% if is_enrolled %}#}
                             <a class="btn btn-orange btn-block mb-6" disabled>Already Enrolled</a>
-                        {% else %}
+{#                        {% else %}#}
                             <a class="btn btn-primary btn-block mb-3"
-                               href="{% url 'Enrollment' course.slug %}">Enroll</a>
-                        {% endif %}
+{#                               href="{% url 'Enrollment' course.slug %}">Enroll</a>#}
+{#                        {% endif %}#}
 
                         <ul class="list-group " style="color: blue">
                             <li class="list-group-item d-flex align-items-center py-3">
