@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
@@ -88,6 +89,7 @@ class Video(models.Model):
     youtube_id = models.CharField(max_length=100, null=True)
     time_duration = models.IntegerField(null=True)
     preview = models.BooleanField(default=False)
+    completed_by = models.ManyToManyField(User, related_name='completed_videos', blank=True)
 
     def __str__(self):
         return self.title

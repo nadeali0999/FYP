@@ -1,6 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.views.generic import TemplateView, ListView
 
@@ -58,13 +59,26 @@ class course_detailsView(TemplateView):
         return context
 
 
+@login_required
 def watch_course(request, slug):
-    print('here is...', slug)
-    course = Course.objects.get(slug=slug)
-    return render(request, 'courses/watch_course.html', {'course': course, 'time_duration':
-        Video.objects.filter(course=course).aggregate(total=Sum('time_duration'))['total'],
-                                                         'is_enrolled': Enrollment.objects.filter(user=request.user,
-                                                                                                  course=course).exists()})
+    course = get_object_or_404(Course, slug=slug)
+    is_enrolled = Enrollment.objects.filter(user=request.user, course=course).exists()
+    time_duration = Video.objects.filter(course=course).aggregate(total=Sum('time_duration'))['total']
+
+    if request.method == 'POST' and request.is_ajax():
+        video_id = request.POST.get('video_id')
+        try:
+            video = Video.objects.get(id=video_id, course=course)
+            video.completed_by.add(request.user)
+            return JsonResponse({'success': True})
+        except Video.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Video not found'})
+
+    return render(request, 'courses/watch_course.html', {
+        'course': course,
+        'time_duration': time_duration,
+        'is_enrolled': is_enrolled
+    })
 
 
 def my_learning(request):
