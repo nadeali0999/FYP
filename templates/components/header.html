@@ -48,14 +48,14 @@
                     </a>
 
                 </li>
-             <li class="nav-item dropdown dropdown-full-width">
+                <li class="nav-item dropdown dropdown-full-width">
                     <a class="nav-link text-gigas" href="{% url 'instructor' %}">
                         Our Instructors
                     </a>
 
                 </li>
                 <li class="nav-item dropdown dropdown-full-width">
-                    <a class="nav-link text-gigas" href="">
+                    <a class="nav-link text-gigas" href="{% url 'my_learning' %}">
                         My Learning
                     </a>
 
@@ -88,7 +88,7 @@
                 {% elif user.is_authenticated %}
                     <li class="nav-item dropdown border-0 px-1 px-md-3">
                         <strong><a class="nav-link dropdown-toggle" id="user" data-bs-toggle="dropdown" href="#"
-                           aria-haspopup="true" aria-expanded="false">
+                                   aria-haspopup="true" aria-expanded="false">
                             Welcome , {{ user.first_name }}&nbsp;{{ user.last_name }}
                         </a></strong>
 
@@ -114,10 +114,11 @@
                 {% else %}
                     <li class="nav-item border-0 px-1 px-md-3 mt-3">
                         <!-- Button trigger account modal -->
-                        <a href="{% url 'login' %}" class="nav-link d-flex p-3 bg-white-all rounded-circle text-gigas icon-xs"
+                        <a href="{% url 'login' %}"
+                           class="nav-link d-flex p-3 bg-white-all rounded-circle text-gigas icon-xs"
                            data-bs-toggle="modal" data-bs-target="#accountModal">
                             <!-- Icon -->
-                           <i class='fas fa-user-circle' style='font-size:25px'></i>
+                            <i class='fas fa-user-circle' style='font-size:25px'></i>
 
                         </a>
                     </li>
@@ -142,11 +143,12 @@
                                 <div class="input-group-prepend">
                                     <button class="btn btn-sm text-secondary icon-xs d-flex align-items-center"
                                             type="submit">
-                                     <i class="fa fa-search" style="font-size:25px"></i>
+                                        <i class="fa fa-search" style="font-size:25px"></i>
                                     </button>
                                 </div>
                                 <input class="form-control form-control-sm border-0 ps-0" type="search"
-                                       placeholder="Which Course you want to Search here?" aria-label="Search" name="query">
+                                       placeholder="Which Course you want to Search here?" aria-label="Search"
+                                       name="query">
                             </div>
                         </form>
                     </div>

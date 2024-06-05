@@ -57,6 +57,9 @@ class course_detailsView(TemplateView):
 
 def watch_course(request):
     return render(request, 'courses/watch_course.html')
+
+def my_learning(request):
+    return render(request, 'main/my_learning.html')
 def filter_data(request):
     categories = request.GET.getlist('category[]')
     level = request.GET.getlist('level[]')

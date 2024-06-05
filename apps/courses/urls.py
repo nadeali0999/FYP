@@ -9,6 +9,7 @@ urlpatterns = [
     path('course/filter-data',views.filter_data,name="filter-data"),
     path('search/', SearchCourseView.as_view(), name='search_course'),
     path('course/<slug:slug>',course_detailsView.as_view(), name='course_details'),
-    path('watch_course/', watch_course, name='watch_course')
+    path('watch_course/', watch_course, name='watch_course'),
+    path('my_learning/', my_learning, name='my_learning'),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
