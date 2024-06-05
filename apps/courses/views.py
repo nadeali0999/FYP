@@ -5,6 +5,9 @@ from django.views.generic import TemplateView, ListView
 from apps.courses.models import *
 from django.db.models import Sum
 
+from apps.payments.models import Enrollment
+
+
 class SingleCourseView(TemplateView):
     template_name = 'main/single_course.html'
 
@@ -45,6 +48,10 @@ class course_detailsView(TemplateView):
         # Calculate the total duration of videos related to the course
         total_duration = Video.objects.filter(course=self.course).aggregate(total=Sum('time_duration'))['total']
         context['time_duration'] = total_duration
+
+        user = self.request.user
+        is_enrolled = Enrollment.objects.filter(user=user, course=self.course).exists()
+        context['is_enrolled'] = is_enrolled
 
         return context
 

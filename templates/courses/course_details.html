@@ -213,7 +213,7 @@
                         <div class="col-12 col-md-auto mb-3 mb-md-0 px-xl-5">
                             <div class="d-flex align-items-center">
                                 <div class="me-3 d-flex text-secondary icon-uxs">
-                                 <i class="fa fa-users" aria-hidden="true" style='font-size:25px'></i>
+                                    <i class="fa fa-users" aria-hidden="true" style='font-size:25px'></i>
                                 </div>
                                 {{ enrolled_students_count }} students
                             </div>
@@ -221,7 +221,7 @@
                         <div class="col-12 col-md-auto mb-3 mb-md-0 px-xl-5">
                             <div class="d-flex align-items-center">
                                 <div class="me-3 d-flex text-secondary icon-uxs">
-                                 <i class='fas fa-book-open' style='font-size:25px'></i>
+                                    <i class='fas fa-book-open' style='font-size:25px'></i>
                                 </div>
                                 {{ course_count }} courses
                             </div>
@@ -238,41 +238,43 @@
 
                 {#                course enrollment sidebar----------------------------------#}
                 <div class="d-block rounded border p-2 shadow mb-6">
-                    <a href="assets/img/products/product-2.jpg" class="d-block sk-thumbnail rounded mb-1"
-                       data-fancybox>
+                    <a href="assets/img/products/product-2.jpg" class="d-block sk-thumbnail rounded mb-1" data-fancybox>
                         <img class="rounded shadow-light-lg" src="assets/img/products/product-2.jpg" alt="...">
                     </a>
 
-
                     <div class="pt-5 pb-4 px-5 px-lg-3 px-xl-5">
-{#                        {% if course.price == 0 %}#}
+                        {% if course.price == 0 %}
                             <div class="d-flex align-items-center mb-2">
                                 <ins class="h2 mb-0">Free</ins>
                             </div>
-{#                        {% else %}#}
+                        {% else %}
                             <div class="d-flex align-items-center mb-2">
                                 <ins class="h2 mb-0">{{ course.price }} $</ins>
                             </div>
-                      {% comment %}  {% endif %}{% endcomment %}
-{#                        {% if is_enrolled %}#}
-                            <a class="btn btn-orange btn-block mb-6" disabled>Already Enrolled</a>
-{#                        {% else %}#}
-                            <a class="btn btn-primary btn-block mb-3"
-{#                               href="{% url 'Enrollment' course.slug %}">Enroll</a>#}
-{#                        {% endif %}#}
+                        {% endif %}
 
-                        <ul class="list-group " style="color: blue">
+                        {% if is_enrolled %}
+                            <a class="btn btn-orange btn-block mb-6" disabled>Already Enrolled</a>
+                        {% else %}
+                            {% if course.price == 0 %}
+                                <a class="btn btn-primary btn-block mb-3"
+                                   href="{% url 'Enrollment' course.slug %}">Enroll</a>
+                            {% else %}
+                                <a class="btn btn-primary btn-block mb-3"
+                                   href="{% url 'payment_course' course.slug %}">Pay with Card </a>
+                            {% endif %}
+                        {% endif %}
+
+                        <ul class="list-group" style="color: blue">
                             <li class="list-group-item d-flex align-items-center py-3">
                                 <div class="text-secondary d-flex icon-uxs">
-                                    <!-- FontAwesome Clock Icon -->
                                     <i class="fa fa-clock-o"></i>
                                 </div>
                                 <h6 class="mb-0 ms-3 me-auto">Duration</h6>
-                                <span>{{ time_duration }}</span>
+                                <span>{{ time_duration }} Minutes</span>
                             </li>
                             <li class="list-group-item d-flex align-items-center py-3">
                                 <div class="text-secondary d-flex icon-uxs">
-                                    <!-- FontAwesome Chalkboard Teacher Icon -->
                                     <i class='fas fa-chalkboard'></i>
                                 </div>
                                 <h6 class="mb-0 ms-3 me-auto">Lectures</h6>
@@ -280,7 +282,6 @@
                             </li>
                             <li class="list-group-item d-flex align-items-center py-3">
                                 <div class="text-secondary d-flex icon-uxs">
-                                    <!-- FontAwesome Users Icon -->
                                     <i class="fa fa-users" aria-hidden="true"></i>
                                 </div>
                                 <h6 class="mb-0 ms-3 me-auto">Enrolled</h6>
@@ -288,7 +289,6 @@
                             </li>
                             <li class="list-group-item d-flex align-items-center py-3">
                                 <div class="text-secondary d-flex icon-uxs">
-                                    <!-- FontAwesome Language Icon -->
                                     <i class="fa fa-language" aria-hidden="true"></i>
                                 </div>
                                 <h6 class="mb-0 ms-3 me-auto">Language</h6>
@@ -296,7 +296,6 @@
                             </li>
                             <li class="list-group-item d-flex align-items-center py-3">
                                 <div class="text-secondary d-flex icon-uxs">
-                                    <!-- FontAwesome Graduation Cap Icon -->
                                     <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                                 </div>
                                 <h6 class="mb-0 ms-3 me-auto">Skill level</h6>
@@ -304,15 +303,13 @@
                             </li>
                             <li class="list-group-item d-flex align-items-center py-3">
                                 <div class="text-secondary d-flex icon-uxs">
-                                    <!-- FontAwesome Calendar Icon -->
                                     <i class="fa fa-calendar" aria-hidden="true"></i>
                                 </div>
-                                <h6 class="mb-0 ms-3 me-auto">Created at </h6>
+                                <h6 class="mb-0 ms-3 me-auto">Created at</h6>
                                 <span>{{ course.created_at }}</span>
                             </li>
                             <li class="list-group-item d-flex align-items-center py-3">
                                 <div class="text-secondary d-flex icon-uxs">
-                                    <!-- FontAwesome Certificate Icon -->
                                     <i class='fas fa-universal-access' style='font-size:20px'></i>
                                 </div>
                                 <h6 class="mb-0 ms-3 me-auto">Access on cell & LED</h6>
@@ -321,10 +318,12 @@
                         </ul>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>
-    </div>
+
 
 
 {% endblock %}
