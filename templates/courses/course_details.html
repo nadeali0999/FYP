@@ -133,10 +133,12 @@
                                                     {% if is_enrolled %}
                                                         <a href="{% url 'watch_course' slug=course.slug %}">{{ video.title }}</a>
                                                     {% endif %}
-                                                    {% if not is_enrolled and video.preview %}
+                                                    {% if not is_enrolled %}
+                                                        {#                                                         and video.preview #}
                                                         <a href="https://www.youtube.com/watch?v={{ video.youtube_id }}"
                                                            class="text-secondary">{{ video.title }}</a>
-                                                    {% elif not is_enrolled and not video.preview %}
+                                                    {% elif not is_enrolled %}
+                                                        {#                                                        and not video.preview #}
                                                         <span class="text-secondary" data-toggle="tooltip"
                                                               title="Enroll in the course to watch more">{{ video.title }}</span>
                                                     {% endif %}

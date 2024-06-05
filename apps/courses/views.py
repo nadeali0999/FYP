@@ -1,10 +1,10 @@
+from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.views.generic import TemplateView, ListView
-from apps.courses.models import *
-from django.db.models import Sum
 
+from apps.courses.models import *
 from apps.payments.models import Enrollment
 
 
@@ -61,12 +61,16 @@ class course_detailsView(TemplateView):
 def watch_course(request, slug):
     print('here is...', slug)
     course = Course.objects.get(slug=slug)
-    return render(request, 'courses/watch_course.html', {'course': course,
-                                                         'time_duration': Video.objects.filter(course=course).aggregate(total=Sum('time_duration'))['total'],
-                                                         'is_enrolled': Enrollment.objects.filter(user=request.user, course=course).exists()})
+    return render(request, 'courses/watch_course.html', {'course': course, 'time_duration':
+        Video.objects.filter(course=course).aggregate(total=Sum('time_duration'))['total'],
+                                                         'is_enrolled': Enrollment.objects.filter(user=request.user,
+                                                                                                  course=course).exists()})
+
 
 def my_learning(request):
     return render(request, 'main/my_learning.html')
+
+
 def filter_data(request):
     categories = request.GET.getlist('category[]')
     level = request.GET.getlist('level[]')
