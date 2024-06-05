@@ -20,6 +20,7 @@ class SingleCourseView(TemplateView):
         context['categories'] = Categories.get_all_categories()  # Ensuring correct method call
         return context
 
+
 class SearchCourseView(ListView):
     model = Course
     template_name = 'search/search.html'
@@ -28,6 +29,7 @@ class SearchCourseView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('query', '')
         return Course.objects.filter(title__icontains=query)
+
 
 class course_detailsView(TemplateView):
     template_name = 'courses/course_details.html'
@@ -55,8 +57,13 @@ class course_detailsView(TemplateView):
 
         return context
 
-def watch_course(request):
-    return render(request, 'courses/watch_course.html')
+
+def watch_course(request, slug):
+    print('here is...', slug)
+    course = Course.objects.get(slug=slug)
+    return render(request, 'courses/watch_course.html', {'course': course,
+                                                         'time_duration': Video.objects.filter(course=course).aggregate(total=Sum('time_duration'))['total'],
+                                                         'is_enrolled': Enrollment.objects.filter(user=request.user, course=course).exists()})
 
 def my_learning(request):
     return render(request, 'main/my_learning.html')
