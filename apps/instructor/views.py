@@ -1,4 +1,8 @@
 from django.shortcuts import render
 
-def instructor(request):
-    return render(request, 'instructors/intstructors.html')
+from apps.instructor.models import Author
+
+
+def instructors_list(request):
+    authors = Author.objects.all()
+    return render(request, 'instructors/intstructors.html', {'authors': authors})
