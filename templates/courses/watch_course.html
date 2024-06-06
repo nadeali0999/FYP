@@ -16,30 +16,17 @@
             </div>
 
             <!-- Back to Course -->
-            <a href="{% url 'course_details' slug=course.slug %}" class="btn btn-sm btn-primary ms-md-6 px-6 mb-3 mb-md-0 flex-shrink-0">Back to Course</a>
+            <a href="{% url 'course_details' slug=course.slug %}"
+               class="btn btn-sm btn-primary ms-md-6 px-6 mb-3 mb-md-0 flex-shrink-0">Back to Course</a>
         </div>
     </div>
 </header>
 
-<!-- Video Player and Mark as Complete Button -->
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-12">
-            <div id="video-player-container" class="d-none">
-                <video id="video-player" width="100%" controls>
-                    <source id="video-source" src="" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-               <button id="mark-complete" class="btn btn-success mt-3 float-end">Mark as Complete</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- COURSE -->
 <div class="mt-15 mt-md-11 pt-md-3">
     <div class="sidebar-collapse">
-        <a class="text-white bg-primary rounded-right-lg p-4 w-60p h-50p" data-bs-toggle="collapse" href="#sidebarcollapseExample" role="button" aria-expanded="false" aria-controls="sidebarcollapseExample">
+        <a class="text-white bg-primary rounded-right-lg p-4 w-60p h-50p" data-bs-toggle="collapse"
+           href="#sidebarcollapseExample" role="button" aria-expanded="false" aria-controls="sidebarcollapseExample">
             <!-- Icon -->
             <svg width="25" height="17" viewBox="0 0 25 17" xmlns="http://www.w3.org/2000/svg">
                 <rect width="25" height="1" fill="currentColor"/>
@@ -47,8 +34,10 @@
                 <rect y="16" width="20" height="1" fill="currentColor"/>
             </svg>
             <svg width="16" height="17" viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0.142135 2.00015L1.55635 0.585938L15.6985 14.7281L14.2843 16.1423L0.142135 2.00015Z" fill="currentColor"></path>
-                <path d="M14.1421 1.0001L15.5563 2.41431L1.41421 16.5564L0 15.1422L14.1421 1.0001Z" fill="currentColor"></path>
+                <path d="M0.142135 2.00015L1.55635 0.585938L15.6985 14.7281L14.2843 16.1423L0.142135 2.00015Z"
+                      fill="currentColor"></path>
+                <path d="M14.1421 1.0001L15.5563 2.41431L1.41421 16.5564L0 15.1422L14.1421 1.0001Z"
+                      fill="currentColor"></path>
             </svg>
         </a>
 
@@ -59,7 +48,10 @@
                     {% for lesson in course.lesson_set.all %}
                         <div class="d-flex align-items-center" id="curriculumheading{{ lesson.id }}">
                             <h5 class="mb-0 w-100">
-                                <button class="d-flex align-items-center p-5 min-height-80 text-dark fw-medium collapse-accordion-toggle line-height-one" type="button" data-bs-toggle="collapse" data-bs-target="#Curriculumcollapse{{ lesson.id }}" aria-expanded="false" aria-controls="Curriculumcollapse{{ lesson.id }}">
+                                <button class="d-flex align-items-center p-5 min-height-80 text-dark fw-medium collapse-accordion-toggle line-height-one"
+                                        type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#Curriculumcollapse{{ lesson.id }}" aria-expanded="false"
+                                        aria-controls="Curriculumcollapse{{ lesson.id }}">
                                     <span class="me-4 text-dark d-flex">
                                         <!-- Icon -->
                                         <i class="fas fa-chevron-down"></i>
@@ -69,7 +61,8 @@
                             </h5>
                         </div>
 
-                        <div id="Curriculumcollapse{{ lesson.id }}" class="collapse" aria-labelledby="curriculumheading{{ lesson.id }}" data-parent="#accordionCurriculum">
+                        <div id="Curriculumcollapse{{ lesson.id }}" class="collapse"
+                             aria-labelledby="curriculumheading{{ lesson.id }}" data-parent="#accordionCurriculum">
                             {% for video in lesson.video_set.all %}
                                 <div class="border-top px-5 py-4 min-height-70 d-md-flex align-items-center {% cycle '' 'bg-gray-100' %}">
                                     <div class="d-flex align-items-center me-auto mb-4 mb-md-0">
@@ -78,16 +71,21 @@
                                         </div>
                                         <div class="ms-4">
                                             {% if is_enrolled %}
-                                                <a href="#" class="video-link" data-video-id="{{ video.id }}" data-video-url="{{ video.url }}">{{ video.title }}</a>
+                                                <a href="{{ lesson.id }}" class="video-link" data-video-id="{{ video.id }}"
+                                                   data-video-url="{{ video.url }}">{{ video.title }}</a>
                                             {% else %}
-                                                <a href="https://www.youtube.com/watch?v={{ video.youtube_id }}" class="text-secondary">{{ video.title }}</a>
+                                                <a href="https://www.youtube.com/watch?v={{ video.youtube_id }}"
+                                                   class="text-secondary">{{ video.title }}</a>
                                             {% endif %}
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center overflow-auto overflow-md-visible flex-shrink-all">
-                                        <div class="badge btn-blue-soft me-5 font-size-sm fw-normal py-2">{{ video.time_duration }} min</div>
+                                        <div class="badge btn-blue-soft me-5 font-size-sm fw-normal py-2">{{ video.time_duration }}
+                                            min
+                                        </div>
                                         {% if is_enrolled %}
-                                            <i class="fa fa-check-circle" data-video-id="{{ video.id }}" style="font-size:36px; color: {% if video.is_completed %}green{% else %}gray{% endif %};"></i>
+                                            <i class="fa fa-check-circle" data-video-id="{{ video.id }}"
+                                               style="font-size:36px; color: {% if video.is_completed %}green{% else %}gray{% endif %};"></i>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -100,7 +98,11 @@
                         <div class="border rounded shadow mb-4">
                             <div class="d-flex align-items-center" id="quizHeading{{ forloop.counter }}">
                                 <h5 class="mb-0 w-100">
-                                    <button class="d-flex align-items-center p-5 min-height-80 text-dark fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#quizCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="quizCollapse{{ forloop.counter }}" style="border: none; color: white; background-color: transparent;">
+                                    <button class="d-flex align-items-center p-5 min-height-80 text-dark fw-medium"
+                                            type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#quizCollapse{{ forloop.counter }}" aria-expanded="false"
+                                            aria-controls="quizCollapse{{ forloop.counter }}"
+                                            style="border: none; color: white; background-color: transparent;">
                                         <span class="me-4">
                                             <i class="fas fa-chevron-down"></i>
                                         </span>
@@ -108,7 +110,8 @@
                                     </button>
                                 </h5>
                             </div>
-                            <div id="quizCollapse{{ forloop.counter }}" class="collapse" aria-labelledby="quizHeading{{ forloop.counter }}" data-parent="#accordionCurriculum">
+                            <div id="quizCollapse{{ forloop.counter }}" class="collapse"
+                                 aria-labelledby="quizHeading{{ forloop.counter }}" data-parent="#accordionCurriculum">
                                 <div class="border-top p-4">
                                     <div class="d-flex align-items-center justify-content-between mb-2">
                                         <div>
@@ -133,52 +136,31 @@
             </div>
         </div>
     </div>
+
+
+    <div class="container">
+        <div class="row mb-11">
+            <div class="col-lg-11 col-wd-12 ms-lg-auto pt-11 pt-lg-8">
+                <h2 class="font-size-xl mb-6">
+                    Introduction to the course
+                </h2>
+
+                <a href="https://www.youtube.com/watch?v=9I-Y6VQ6tyI" class="d-block sk-thumbnail rounded mb-8"
+                   data-fancybox>
+                    <div class="h-90p w-90p rounded-circle bg-white size-30-all d-inline-flex align-items-center justify-content-center position-absolute center z-index-1">
+                       <i class="fa fa-play" style="font-size:42px; color: midnightblue"></i>
+
+                    </div>
+                   <img class="rounded shadow-light-lg" src="{% static 'assets/img/products/product-2.jpg' %}" alt="Product Image">
+                </a>
+                <div class="d-flex justify-content-end">
+                    <a class="btn btn-sm btn-primary px-6 mb-3 mb-md-0 flex-shrink-0">Mark as Complete</a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
 </div>
-
-{#test if you want to do#}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Handle video link click
-        document.querySelectorAll('.video-link').forEach(function (link) {
-            link.addEventListener('click', function (event) {
-                event.preventDefault();
-                const videoUrl = this.dataset.videoUrl;
-                const videoId = this.dataset.videoId;
-                const videoPlayerContainer = document.getElementById('video-player-container');
-                const videoPlayer = document.getElementById('video-player');
-                const videoSource = document.getElementById('video-source');
-                const markCompleteButton = document.getElementById('mark-complete');
-
-                videoSource.src = videoUrl;
-                videoPlayer.load();
-                videoPlayerContainer.classList.remove('d-none');
-                markCompleteButton.dataset.videoId = videoId;
-            });
-        });
-
-        // Handle mark as complete button click
-        document.getElementById('mark-complete').addEventListener('click', function () {
-            const videoId = this.dataset.videoId;
-            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-            fetch("{% url 'watch_course' slug=course.slug %}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken
-                },
-                body: JSON.stringify({video_id: videoId})
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Update the check icon color
-                    document.querySelector(`.fa-check-circle[data-video-id="${videoId}"]`).style.color = 'green';
-                } else {
-                    console.error(data.error);
-                }
-            });
-        });
-    });
-</script>
-</body>

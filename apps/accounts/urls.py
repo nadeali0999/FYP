@@ -18,4 +18,4 @@ urlpatterns = [
      path('contact/', ContactView.as_view(), name='contact'),
      path('contact/success/', TemplateView.as_view(template_name="main/contact_success.html"), name='contact_success'),
 
-]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

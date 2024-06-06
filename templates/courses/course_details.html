@@ -17,7 +17,7 @@
                 <div class="d-md-flex align-items-center mb-5">
                     <div class="border rounded-circle d-inline-block mb-4 mb-md-0 me-md-6 me-lg-4 me-xl-6">
                         <div class="p-2">
-                            <img src="{{ course.author.author_profile }}" alt="..." class="rounded-circle" width="68"
+                            <img src="/{{ course.author.author_profile }}" alt="..." class="rounded-circle" width="68"
                                  height="68">
                         </div>
                     </div>
@@ -201,7 +201,7 @@
                     <div class="d-flex align-items-center mb-6">
                         <div class="d-inline-block rounded-circle border me-6 p-2">
                             <div class="avatar avatar-size-120">
-                                <img src="{{ course.author.author_profile }}" alt="..."
+                                <img src="/{{ course.author.author_profile }}" alt="..."
                                      class="avatar-img rounded-circle">
                             </div>
                         </div>
@@ -240,8 +240,8 @@
 
                 {#                course enrollment sidebar----------------------------------#}
                 <div class="d-block rounded border p-2 shadow mb-6">
-                    <a href="assets/img/products/product-2.jpg" class="d-block sk-thumbnail rounded mb-1" data-fancybox>
-                        <img class="rounded shadow-light-lg" src="assets/img/products/product-2.jpg" alt="...">
+                    <a class="d-block sk-thumbnail rounded mb-1">
+                        <img class="rounded shadow-light-lg" src="/{{ course.featured_image }}" alt="...">
                     </a>
 
                     <div class="pt-5 pb-4 px-5 px-lg-3 px-xl-5">
