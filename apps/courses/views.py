@@ -56,6 +56,14 @@ class course_detailsView(TemplateView):
         is_enrolled = Enrollment.objects.filter(user=user, course=self.course).exists()
         context['is_enrolled'] = is_enrolled
 
+        # Fetch all videos related to the course
+        videos = Video.objects.filter(course=self.course)
+        context['videos'] = videos
+
+        # Check if all videos are marked as complete
+        all_videos_completed = all(video.is_completed for video in videos)
+        context['all_videos_completed'] = all_videos_completed
+
         return context
 
 
@@ -63,13 +71,31 @@ class course_detailsView(TemplateView):
 def watch_course(request, slug):
     course = get_object_or_404(Course, slug=slug)
     is_enrolled = Enrollment.objects.filter(user=request.user, course=course).exists()
-    time_duration = Video.objects.filter(course=course).aggregate(total=Sum('time_duration'))['total']
+    lectures = course.video_set.all()  # Fetch all videos associated with the course
+    time_duration = lectures.aggregate(total=Sum('time_duration'))['total']
+    lecture_id = request.GET.get('lecture')
 
-    return render(request, 'courses/watch_course.html', {
-        'course': course,
-        'time_duration': time_duration,
-        'is_enrolled': is_enrolled
-    })
+    if lecture_id:
+        video = get_object_or_404(Video, id=lecture_id, course=course)
+    else:
+        # If no specific video is requested, render the first video in the course
+        video = course.video_set.first()
+
+    if request.method == 'POST' and 'video_id' in request.POST:
+        video_id = request.POST.get('video_id')
+        video = get_object_or_404(Video, id=video_id, course=course)
+        video.is_completed = True
+        video.save()
+
+    # Check if all videos are marked as complete
+    all_videos_completed = all(video.is_completed for video in lectures)
+
+    return render(request, 'courses/watch_course.html',
+                  {'course': course, 'time_duration': time_duration, 'is_enrolled': is_enrolled, 'video': video,
+                      'all_videos_completed': all_videos_completed,
+                      # Pass the flag indicating if all videos are completed
+                  })
+
 
 def my_learning(request):
     return render(request, 'main/my_learning.html')

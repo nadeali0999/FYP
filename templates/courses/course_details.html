@@ -207,7 +207,7 @@
                         </div>
                         <div class="media-body">
                             <h4 class="mb-0">{{ course.author.name }}</h4>
-                            <span>Instructor</span>
+                            <span>{{ course.author.profession }}</span>
                         </div>
                     </div>
 
@@ -225,7 +225,7 @@
                                 <div class="me-3 d-flex text-secondary icon-uxs">
                                     <i class='fas fa-book-open' style='font-size:25px'></i>
                                 </div>
-                                {{ course_count }} courses
+                                {{ course.count }} courses
                             </div>
                         </div>
                     </div>

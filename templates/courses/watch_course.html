@@ -1,6 +1,6 @@
 {% include 'base2.html' %}
 {% load static %}
-<body>
+
 <!-- NAVBAR -->
 <header class="bg-white border-bottom py-3 header-fixed">
     <div class="px-5 px-lg-8 w-100">
@@ -12,7 +12,7 @@
 
             <!-- Lesson Title -->
             <div class="ms-md-6 ms-wd-12 ms-xl-10 me-auto mb-5 mb-md-0">
-                <h3 class="mb-0 line-clamp-2 ms-wd-3">{{ course.title }}</h3>
+                <h3 class="mb-0 line-clamp-2 ms-wd-3">{{ course.category }} : {{ course.title }}</h3>
             </div>
 
             <!-- Back to Course -->
@@ -64,15 +64,16 @@
                         <div id="Curriculumcollapse{{ lesson.id }}" class="collapse"
                              aria-labelledby="curriculumheading{{ lesson.id }}" data-parent="#accordionCurriculum">
                             {% for video in lesson.video_set.all %}
-                                <div class="border-top px-5 py-4 min-height-70 d-md-flex align-items-center {% cycle '' 'bg-gray-100' %}">
+                                <div class="border-top px-5 py-4 min-height-70 d-md-flex align-items-center">
                                     <div class="d-flex align-items-center me-auto mb-4 mb-md-0">
                                         <div class="text-secondary d-flex">
                                             <i class='fas fa-video me-3'></i>
                                         </div>
                                         <div class="ms-4">
                                             {% if is_enrolled %}
-                                                <a href="{{ lesson.id }}" class="video-link" data-video-id="{{ video.id }}"
-                                                   data-video-url="{{ video.url }}">{{ video.title }}</a>
+                                                <a href="?lecture={{ video.id }}"
+                                                   class="text-secondary">{{ video.title }}</a>
+
                                             {% else %}
                                                 <a href="https://www.youtube.com/watch?v={{ video.youtube_id }}"
                                                    class="text-secondary">{{ video.title }}</a>
@@ -95,7 +96,7 @@
 
                     <!-- Quizzes Section -->
                     {% for quiz in course.quizzes.all %}
-                        <div class="border rounded shadow mb-4">
+                        <div class="rounded shadow mb-4">
                             <div class="d-flex align-items-center" id="quizHeading{{ forloop.counter }}">
                                 <h5 class="mb-0 w-100">
                                     <button class="d-flex align-items-center p-5 min-height-80 text-dark fw-medium"
@@ -103,9 +104,9 @@
                                             data-bs-target="#quizCollapse{{ forloop.counter }}" aria-expanded="false"
                                             aria-controls="quizCollapse{{ forloop.counter }}"
                                             style="border: none; color: white; background-color: transparent;">
-                                        <span class="me-4">
-                                            <i class="fas fa-chevron-down"></i>
-                                        </span>
+                    <span class="me-4">
+                        <i class="fas fa-chevron-down"></i>
+                    </span>
                                         {{ quiz.title }}
                                     </button>
                                 </h5>
@@ -121,9 +122,11 @@
                                         <div>
                                             {% if is_enrolled %}
                                                 {% if all_videos_completed %}
-                                                    <i class="fa fa-unlock" style="font-size:36px"></i>
+                                                    <a href="{% url 'quiz_start' course_slug='test_course' quiz_id=1 %}" class="btn btn-sm btn-primary px-6 mb-3 mb-md-0 flex-shrink-0">Take Quiz</a>
+
+
                                                 {% else %}
-                                                    <i class="fa fa-lock" style="font-size:36px"></i>
+                                                    <strong><p style="background: red; color: white">Watch All videos to unlock</p></strong>
                                                 {% endif %}
                                             {% endif %}
                                         </div>
@@ -132,6 +135,8 @@
                             </div>
                         </div>
                     {% endfor %}
+
+
                 </div>
             </div>
         </div>
@@ -142,25 +147,32 @@
         <div class="row mb-11">
             <div class="col-lg-11 col-wd-12 ms-lg-auto pt-11 pt-lg-8">
                 <h2 class="font-size-xl mb-6">
-                    Introduction to the course
+                    <a href="?lecture={{ video.id }}">
+                        {{ video.title }}
+                    </a>
                 </h2>
 
-                <a href="https://www.youtube.com/watch?v=9I-Y6VQ6tyI" class="d-block sk-thumbnail rounded mb-8"
+                <a href="https://www.youtube.com/watch?v={{ video.youtube_id }}"
+                   class="d-block sk-thumbnail rounded mb-8"
                    data-fancybox>
                     <div class="h-90p w-90p rounded-circle bg-white size-30-all d-inline-flex align-items-center justify-content-center position-absolute center z-index-1">
-                       <i class="fa fa-play" style="font-size:42px; color: midnightblue"></i>
+                        <i class="fa fa-play" style="font-size:42px; color: midnightblue"></i>
 
                     </div>
-                   <img class="rounded shadow-light-lg" src="{% static 'assets/img/products/product-2.jpg' %}" alt="Product Image">
+                    <img class="rounded shadow-light-lg" src="/{{ video.thumbnail }}" alt="Product Image">
                 </a>
                 <div class="d-flex justify-content-end">
-                    <a class="btn btn-sm btn-primary px-6 mb-3 mb-md-0 flex-shrink-0">Mark as Complete</a>
+                    <form id="mark-complete-form" action="{% url 'watch_course' slug=course.slug %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="video_id" value="{{ video.id }}">
+                        <button class="btn btn-sm btn-primary px-6 mb-3 mb-md-0 flex-shrink-0">Mark as
+                            Completed
+                        </button>
+                    </form>
                 </div>
-
 
             </div>
         </div>
     </div>
-
 
 </div>

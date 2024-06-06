@@ -89,8 +89,7 @@ class Video(models.Model):
     youtube_id = models.CharField(max_length=100, null=True)
     time_duration = models.IntegerField(null=True)
     preview = models.BooleanField(default=False)
-    completed_by = models.ManyToManyField(User, related_name='completed_videos', blank=True)
-
+    is_completed = models.BooleanField(default=False)
     def __str__(self):
         return self.title
 

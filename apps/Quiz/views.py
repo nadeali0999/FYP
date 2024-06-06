@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Course, Quiz, Question
 
-def quiz_start(request):
+def quiz_start(request, course_slug, quiz_id):
     return render(request, 'Quiz/quiz_startpage.html')
 def quiz_detail(request, course_slug, quiz_id):
     course = get_object_or_404(Course, slug=course_slug)

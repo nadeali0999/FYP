@@ -1,5 +1,8 @@
 {% extends 'base2.html' %}
 {% block content %}
+    
+{#      <a href="{% url 'watch_course' slug=course.slug %}"#}
+{#               class="btn btn-sm btn-primary ms-md-6 px-6 mb-3 mb-md-0 flex-shrink-0">Back to Course</a>#}
 <div class="container">
     <h1>Final Quiz: The Building Blocks of a Program</h1>
     <a href="#" class="learning-objectives">Review Learning Objectives</a>
@@ -42,9 +45,10 @@
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        max-width: 800px;
-        width: 100%;
+        max-width: 1000px; /* Increased max-width */
+        width: 80%; /* Adjusted width to 80% */
         text-align: center;
+        margin: auto; /* Centering the container horizontally */
     }
 
     h1 {
@@ -141,6 +145,7 @@
         font-weight: bold;
     }
 </style>
+
 
 
 {% endblock %}
