@@ -40,7 +40,7 @@ class Course(models.Model):
     featured_video = models.CharField(max_length=300, null=True)
     title = models.CharField(max_length=500)
     created_at = models.DateField(auto_now_add=True)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True)
     level = models.ForeignKey(Level, on_delete=models.CASCADE, null=True)
