@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from .serializers import MessageSerializer
+from ..courses.models import Course
 from ..instructor.models import Author
 from ..payments.models import Enrollment
 
@@ -17,15 +18,26 @@ def getFriendsList(id):
     """
     try:
         user = User.objects.get(id=id)
-        courses_enrollment = list(user.enrollment_set.all())
-
+        # if user act as student
+        # Retrieve all courses related to this user through enrollments
+        courses = Course.objects.filter(enrollment__user=user).distinct()
         friends = []
-        for id in courses_enrollment:
-            num = str(id.course.author.id)
-            fr = Author.objects.get(id=int(num))
-            friends.append(fr)
+        if courses:
+            for id in courses:
+                num = str(id.author.id)
+                fr = User.objects.get(id=int(num))
+                friends.append(fr)
+        else:
+            # if user act as author
+            # Retrieve all authors related to this user through enrollments
+            authors = Enrollment.objects.filter(course__author=user).distinct()
+            for id in authors:
+                num = str(id.user.id)
+                fr = User.objects.get(id=int(num))
+                friends.append(fr)
         return friends
-    except:
+    except Exception as e:
+        print("Error", e)
         return []
 
 
@@ -56,34 +68,6 @@ def index(request):
         return render(request, "chat/Base.html", {'friends': friends})
 
 
-def search(request):
-    """
-    Search users page
-    :param request:
-    :return:
-    """
-    users = list(UserProfile.objects.all())
-    for user in users:
-        if user.username == request.user.username:
-            users.remove(user)
-            break
-
-    if request.method == "POST":
-        print("SEARCHING!!")
-        query = request.POST.get("search")
-        user_ls = []
-        for user in users:
-            if query in user.name or query in user.username:
-                user_ls.append(user)
-        return render(request, "chat/search.html", {'users': user_ls, })
-
-    try:
-        users = users[:10]
-    except:
-        users = users[:]
-    id = getUserId(request.user.username)
-    friends = getFriendsList(id)
-    return render(request, "chat/search.html", {'users': users, 'friends': friends})
 
 
 def addFriend(request, name):
@@ -119,7 +103,7 @@ def chat(request, username):
     :param username:
     :return:
     """
-    friend = Author.objects.get(username=username)
+    friend = User.objects.get(username=username)
     id = getUserId(request.user.username)
     curr_user = User.objects.get(id=id)
     messages = Messages.objects.filter(sender_name=id, receiver_name=friend.id) | Messages.objects.filter(

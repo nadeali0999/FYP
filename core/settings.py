@@ -7,7 +7,6 @@ from django.template.context_processors import media
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -17,9 +16,7 @@ SECRET_KEY = 'django-insecure-nby_6ai&ozs1v)0!!apmbyutq8z%c&s-o4h73+nvh&!^iw&ram
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -38,7 +35,6 @@ INSTALLED_APPS = [
     'apps.courses',
     'apps.instructor',
     'apps.chat',
-
 
     'crispy_bootstrap4',
     'crispy_forms',
@@ -76,7 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -94,7 +89,6 @@ DATABASES = {
     #     'PORT': '5432',
     # }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -114,7 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -125,7 +118,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -138,14 +130,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 # settings.py
 STRIPE_SECRET_KEY = 'sk_test_4eC39HqLyjWDarjtT1zdp7dc'
 STRIPE_PUBLISHABLE_KEY = 'pk_test_TYooMQauvdEDq54NiTphI7jx'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
-
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'shah.gmail.com'

@@ -17,7 +17,7 @@ class Messages(models.Model):
     receiver_name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
     time = models.TimeField(auto_now_add=True)
     seen = models.BooleanField(default=False)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return f"To: {self.receiver_name} From: {self.sender_name}"
