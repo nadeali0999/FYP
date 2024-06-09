@@ -68,8 +68,6 @@ def index(request):
         return render(request, "chat/Base.html", {'friends': friends})
 
 
-
-
 def addFriend(request, name):
     """
     Add a user to the friend's list

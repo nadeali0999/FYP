@@ -25,7 +25,7 @@ function scrolltoend() {
 }
 
 $(function () {
-    {#setInterval(receive, 1000)#}
+    setInterval(receive, 1000)
 })
 
 const text = '<div class="container">'
@@ -35,7 +35,7 @@ const text = '<div class="container">'
             '</div>'
 
 function receive(){
-    $.get('/api/messages/' + sender_id + '/' + receiver_id, function(data){
+    $.get('api/messages/' + sender_id + '/' + receiver_id, function(data){
         if(data.length !== 0){
             for(var i = 0; i < data.length; i++){
                 var field = text.replace('{description}', data[i].description);
