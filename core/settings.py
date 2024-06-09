@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'apps.Quiz',
     'apps.courses',
     'apps.instructor',
+    'apps.chat',
 
 
     'crispy_bootstrap4',

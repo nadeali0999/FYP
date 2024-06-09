@@ -177,44 +177,12 @@
             </div>
         </div>
     </div>
-<div class="chat-box">
-    <button class="open-chat-btn">
-        Chat with Instructor
-    </button>
-    <div class="chat-popup" id="chatPopup">
-        <div class="instructor-info">
-            <span class="instructor-name">John Doe</span>
-        </div>
-        <div class="chat-messages">
-            <div class="chat-message user-message">
-                <span class="message">Hi there! I have a question about the course material.</span>
-            </div>
-            <div class="chat-message instructor-message">
-                <span class="message">Sure, feel free to ask!</span>
-            </div>
-            <div class="chat-message user-message">
-                <span class="message">I was wondering about the deadline for the assignment.</span>
-            </div>
-            <div class="chat-message instructor-message">
-                <span class="message">The deadline is next Friday.</span>
-            </div>
-            <!-- Add more chat messages as needed -->
-        </div>
-        <div class="chat-input">
-            <input type="text" class="message-input" placeholder="Type your message here">
-            <button class="send-btn">Send</button>
-        </div>
-    </div>
-</div>
+ <a href="/chat/"
+               class="btn btn-sm btn-primary ms-md-6 px-6 mb-3 mb-md-0 flex-shrink-0">Chat with Instructor</a>
 
 </div>
 
 <style>
-    .chat-box {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-    }
 
     .open-chat-btn {
         background-color: midnightblue;
@@ -224,41 +192,7 @@
         border-radius: 5px;
         cursor: pointer;
     }
-
-    .instructor-info {
-        background-color: #007bff; /* Blue background color */
-        color: #fff; /* Text color */
-        padding: 5px 10px;
-        border-radius: 5px 5px 0 0; /* Rounded corners, only top */
-        text-align: center;
-    }
-
-    .instructor-name {
-        font-weight: bold;
-    }
-
-    .chat-message {
-        margin-bottom: 10px;
-    }
-
-    .user-message {
-        text-align: right;
-    }
-
-    .instructor-message {
-        text-align: left;
-    }
-
-    .message {
-        display: inline-block;
-        padding: 10px;
-        border-radius: 10px;
-        background-color: #e2f3ff; /* User message background color */
-    }
-
-    .instructor-message .message {
-        background-color: #f2f2f2; /* Instructor message background color */
-    }
+    
 
     .chat-popup {
         display: none;
@@ -305,20 +239,10 @@
 </style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const chatBtn = document.querySelector(".open-chat-btn");
-        const chatPopup = document.querySelector(".chat-popup");
-
-        chatBtn.addEventListener("click", function () {
-            chatPopup.style.display = chatPopup.style.display === "block" ? "none" : "block";
-        });
+    
 
         // Close the chat box when clicking outside of it
-        window.addEventListener("click", function (event) {
-            if (!event.target.matches(".open-chat-btn") && !event.target.matches(".chat-popup")) {
-                chatPopup.style.display = "none";
-            }
-        });
-    });
+       
+  
 
 </script>
