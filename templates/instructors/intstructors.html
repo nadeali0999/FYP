@@ -63,7 +63,7 @@
                             <!-- Add data attributes to store author details -->
                             <a href="#" class="card-img sk-thumbnail img-ratio-4 card-hover-overlay d-block show-author-details"
                                data-toggle="modal" data-target="#authorModal"
-                               data-name="{{ author.name }}" data-profession="{{ author.profession }}"
+                               data-name="{{ author.user.username }}" data-profession="{{ author.profession }}"
                                data-about="{{ author.about_author }}">
                                 <img class="rounded shadow-light-lg img-fluid" src="{{ author.author_profile.url }}"
                                      alt="{{ author.user.username }}">

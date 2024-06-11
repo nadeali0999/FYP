@@ -12,4 +12,5 @@ urlpatterns = [
     path('watch_course/<slug:slug>/', watch_course, name='watch_course'),
     path('my_learning/', my_learning, name='my_learning'),
 
+
 ]

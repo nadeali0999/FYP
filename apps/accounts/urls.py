@@ -17,5 +17,7 @@ urlpatterns = [
      path('404/', errorView.as_view(), name='404'),
      path('contact/', ContactView.as_view(), name='contact'),
      path('contact/success/', TemplateView.as_view(template_name="main/contact_success.html"), name='contact_success'),
+     path('Profile_Update/', Profile_Update, name='Profile_Update'),
+     path('logout/', logout_view, name='logout'),
 
 ]

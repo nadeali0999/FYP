@@ -8,9 +8,9 @@ def instructors_list(request):
     query = request.GET.get('q')
     authors = Author.objects.all()
 
-    if query:
+    if query:  # Check if query parameter exists
         authors = authors.filter(
-            Q(name__icontains=query) |
+            Q(user__username__icontains=query) |
             Q(profession__icontains=query)
         )
 

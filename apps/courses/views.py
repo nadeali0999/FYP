@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.http import JsonResponse
@@ -53,7 +54,7 @@ class course_detailsView(TemplateView):
         context['time_duration'] = total_duration
 
         user = self.request.user
-        is_enrolled = Enrollment.objects.filter(user=user, course=self.course).exists()
+        is_enrolled = Enrollment.objects.filter( course=self.course).exists()
         context['is_enrolled'] = is_enrolled
 
         # Fetch all videos related to the course
@@ -98,7 +99,13 @@ def watch_course(request, slug):
 
 
 def my_learning(request):
-    return render(request, 'main/my_learning.html')
+    user = request.user
+    # Retrieve only the courses the user is enrolled in
+    enrolled_courses = Course.objects.filter(enrollment__user=user)
+
+    # Pass the enrolled courses to the template
+    return render(request, 'main/my_learning.html', {'courses': enrolled_courses})
+
 
 
 def filter_data(request):
