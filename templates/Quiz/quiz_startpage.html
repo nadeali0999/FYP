@@ -4,7 +4,7 @@
 
     <div class="container">
         <div class="top-right-button">
-            <a href=""
+            <a href="{% url 'watch_course' slug=course.slug %}"
                class="btn btn-sm btn-primary ms-md-6 px-6 mb-3 mb-md-0 flex-shrink-0">Back to Course</a>
         </div>
 
@@ -13,14 +13,14 @@
         <div class="assignment-details">
             <div class="details-text">
                 <h2> Your Quiz Including</h2>
-                <p><span>Total Questions : </span></p>
-                <p><span>Total Time: </span></p>
+                <p><span>Total Questions: {{ total_questions }}</span></p>
+                <p><span>Total Time: {{ total_time }}</span></p>
 
             </div>
 
-           <div class="details-button">
-                <a href="" class="btn btn-primary start-assignment">Resume
-                    Quiz</a>
+            <div class="details-button">
+                <a href="{% url 'quiz_details' course_slug=course.slug quiz_id=quiz.id %}"
+                   class="btn btn-sm btn-primary px-6 mb-3 mb-md-0 flex-shrink-0">Resume Quiz</a>
             </div>
         </div>
         <div class="grade-section">

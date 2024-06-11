@@ -1,13 +1,74 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 {% block content %}
-<div class="container">
-    <h1>Quiz Results </h1>
-    <p>Score: {{ score }}</p>
-    <p>Percentage: {{ percent }}%</p>
-    <p>Correct answers: {{ correct }}</p>
-    <p>Incorrect answers: {{ wrong }}</p>
-    <p>Total questions: {{ total }}</p>
-    <a href="{% url 'home' %}">Return to Home</a>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            background-color: midnightblue;
+            color: white;
+        }
+        .badge {
+            font-size: 1.25em;
+        }
+    </style>
+</head>
+<body>
+<br><br>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h1 style="color: white" class="mb-0">Quiz Results</h1>
+                    </div>
+                    <div class="card-body text-center">
+                        <i class="fa fa-check-circle" style="font-size:170px;color:green"></i>
+                        <p>congratulations you passed your course!!</p><br>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <p class="h4">Score: <span class="badge badge-success">{{ score }}</span></p>
+                            </div>
+                            <div class="col">
+                                <p class="h4">Percentage: <span class="badge badge-info">{{ percent }}%</span></p>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <p class="h4">Correct answers: <span class="badge badge-primary">{{ correct }}</span></p>
+                            </div>
+                            <div class="col">
+                                <p class="h4">Incorrect answers: <span class="badge badge-danger">{{ wrong }}</span></p>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <p class="h4">Total questions: <span class="badge badge-secondary">{{ total }}</span></p>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <a href="{% url 'home' %}" class="btn btn-outline-primary">Return to Home</a>
+                            <a href="" class="btn btn-outline-primary">Try again</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
 
+{% endblock %}

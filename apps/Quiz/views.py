@@ -3,7 +3,14 @@ from .models import Course, Quiz, Question
 
 
 def quiz_start(request, course_slug, quiz_id):
-    return render(request, 'Quiz/quiz_startpage.html')
+    course = get_object_or_404(Course, slug=course_slug)
+    quiz = get_object_or_404(Quiz, id=quiz_id, course=course)
+
+    context = {
+        'course': course,
+        'quiz': quiz,
+    }
+    return render(request, 'Quiz/quiz_startpage.html', context)
 
 
 def quiz_detail(request, course_slug, quiz_id):

@@ -122,9 +122,8 @@
                                         <div>
                                             {% if is_enrolled %}
                                                 {% if all_videos_completed %}
-                                                    <a href="{% url 'quiz_start' course_slug='test_course' quiz_id=1 %}"
-                                                       class="btn btn-sm btn-primary px-6 mb-3 mb-md-0 flex-shrink-0">Take
-                                                        Quiz</a>
+                                               <a href="{% url 'quiz_start' course_slug=course.slug quiz_id=quiz.id %}" class="btn btn-sm btn-primary px-6 mb-3 mb-md-0 flex-shrink-0">Take Quiz</a>
+
 
 
                                                 {% else %}

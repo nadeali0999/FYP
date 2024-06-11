@@ -175,13 +175,14 @@
                                     <div class="border-top p-4">
                                         <div class="d-flex align-items-center justify-content-between mb-2">
                                             <div>
-                                                <i class='fas fa-question-circle me-3'></i>
+                                                <i class='fas fa-question-circle me-3' style="font-size:36px"></i>
                                                 Total Questions: {{ quiz.questions.count }}
                                             </div>
                                             <div>
                                                 {% if is_enrolled %}
                                                     {% if all_videos_completed %}
-                                                        <i class="fa fa-unlock" style="font-size:36px"></i>
+                                                        <i class="fa fa-unlock" style="font-size:36px;"></i> <a href="{% url 'watch_course' slug=course.slug %}"><p style="background: green; color: white">Go Take your quiz</p></a>
+
                                                     {% else %}
                                                         <i class="fa fa-lock" style="font-size:36px"></i>
                                                     {% endif %}

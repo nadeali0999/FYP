@@ -160,8 +160,9 @@
                                                         </button>
 
                                                     {% else %}
-                                                         <button class="h4 mb-0 d-block mb-lg-n1"
-                                                                style="color: white;background:darkgreen">$ {{ i.price }}
+                                                        <button class="h4 mb-0 d-block mb-lg-n1"
+                                                                style="color: white;background:darkgreen">
+                                                            $ {{ i.price }}
                                                         </button>
                                                     {% endif %}
                                                 </div>
@@ -200,11 +201,12 @@
                                 class="card bg-lavender hover-gradient-1 rounded-lg p-md-5 p-3 h-210p text-center lift">
                             <!-- Image -->
                             <div class="mt-7 text-gigas display-4">
-                                <i class="{{ category.icon }}"></i>
+                                {#                                <i class="{{ category.icon }}"></i>#}
 
                                 <!-- Footer -->
                                 <div class="card-footer px-0 pb-0 pt-4">
-                                    <h5 class="mb-0 line-clamp-2 text-gigas">{{ category.name }}</h5>
+                                    <h5 style="font-size: large"
+                                        class="mb-0 line-clamp-2 text-gigas">{{ category.name }}</h5>
                                 </div>
                             </div>
                         </a>
@@ -266,7 +268,8 @@
                         <form>
                             <div class="input-group d-block d-md-flex">
                                 <button class="btn btn-sm btn-secondary w-100 w-md-auto btn-wide rounded-lg border-0 me-md-3 mb-2 mb-md-0"
-                                        type="button" id="button-addon2">Our Instructor
+                                        type="button" id="button-addon2"
+                                        onclick="window.location.href='{% url 'instructor' %}'">Our Instructor
                                 </button>
                                 <a href="{% url 'single_course' %}"
                                    class="btn btn-sm btn-dark w-100 w-md-auto btn-wide rounded-lg border-0">
