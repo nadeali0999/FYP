@@ -2,26 +2,13 @@
 
 {% block content %}
     <div class="container">
-    <br><br><br>
+        <br><br><br>
         <h1 style="text-align: center;">{{ quiz.title }}</h1>
         <h3 style="text-align: right;">Time remaining: <span id="timer">00:10:00</span></h3>
         <form id="quizForm" method="post">
             {% csrf_token %}
-            {% for question in questions %}
-                <div>
-                    <br>
-                    <p><strong>{{ question.text }}</strong></p>
-                    <input type="radio" name="{{ question.id }}"
-                           value="{{ question.option1 }}"> {{ question.option1 }}<br>
-                    <input type="radio" name="{{ question.id }}"
-                           value="{{ question.option2 }}"> {{ question.option2 }}<br>
-                    <input type="radio" name="{{ question.id }}"
-                           value="{{ question.option3 }}"> {{ question.option3 }}<br>
-                    <input type="radio" name="{{ question.id }}" value="{{ question.option4 }}"> {{ question.option4 }}
-                </div>
-            {% endfor %}
-            <br>
-            <button class="btn btn-primary" type="submit">Submit</button>
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
         </form>
 
     </div>

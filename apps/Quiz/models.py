@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 from apps.courses.models import Course
@@ -6,6 +7,7 @@ from apps.courses.models import Course
 class Quiz(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='quizzes')
     title = models.CharField(max_length=255)
+    total_time = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -18,8 +20,27 @@ class Question(models.Model):
     option2 = models.CharField(max_length=255, verbose_name='Option 2', default='Default Option 2')
     option3 = models.CharField(max_length=255, verbose_name='Option 3', default='Default Option 3')
     option4 = models.CharField(max_length=255, verbose_name='Option 4', default='Default Option 4')
-    correct_answer = models.CharField(max_length=255, help_text="Enter the correct answer exactly as one of the options", default='Default Option 1')
+    correct_answer = models.CharField(max_length=255,
+                                      help_text="Enter the correct answer exactly as one of the options",
+                                      default='Default Option 1')
 
     def __str__(self):
         return self.text
 
+
+class QuizAttempt(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    score = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.quiz.title}"
+
+
+class UserAnswer(models.Model):
+    quiz_attempt = models.ForeignKey(QuizAttempt, on_delete=models.CASCADE, related_name='answers')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    selected_option = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.quiz_attempt.user.username} - {self.question.text} - {self.selected_option}"
