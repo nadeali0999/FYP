@@ -30,7 +30,7 @@ def getFriendsList(id):
         else:
             # if user act as author
             # Retrieve all authors related to this user through enrollments
-            authors = Enrollment.objects.filter(course__author=user).distinct()
+            authors = Enrollment.objects.filter(course__author__user=user).distinct()
             for id in authors:
                 num = str(id.user.id)
                 fr = User.objects.get(id=int(num))

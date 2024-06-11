@@ -66,13 +66,13 @@
                                data-name="{{ author.name }}" data-profession="{{ author.profession }}"
                                data-about="{{ author.about_author }}">
                                 <img class="rounded shadow-light-lg img-fluid" src="{{ author.author_profile.url }}"
-                                     alt="{{ author.name }}">
+                                     alt="{{ author.user.username }}">
                             </a>
                         </div>
 
                         <!-- Footer -->
                         <div class="card-footer px-3 pt-4 pb-1">
-                            <a href="#" class="d-block show-author-details"><h5 class="mb-0">{{ author.name }}</h5></a>
+                            <a href="#" class="d-block show-author-details"><h5 class="mb-0">{{ author.user.username }}</h5></a>
                             <span class="font-size-d-sm">{{ author.profession }}</span>
                         </div>
                     </div>
