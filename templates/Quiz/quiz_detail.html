@@ -1,42 +1,71 @@
 {% extends 'base2.html' %}
-
 {% block content %}
-<div class="container">
-    <br><br><br>
-    <h1 style="text-align: center;">{{ quiz.title }}</h1>
-    <h3 style="text-align: right;">Time remaining: <span id="timer"></span></h3>
-    <form id="quizForm" method="post">
-        {% csrf_token %}
-        {% for field in form %}
-            <label style="font-weight: bold; font-size: 16px;">{{ field.label_tag }}</label><br>
-            {{ field }}
-        {% endfor %}
-        <button type="submit" style="background-color: blue; font-size: 16px;">Submit</button>
-    </form>
-</div>
-<script>
-    function startTimer(duration, display) {
-        var timer = duration, minutes, seconds;
-        var endInterval = setInterval(function () {
-            minutes = parseInt(timer / 60, 10);
-            seconds = parseInt(timer % 60, 10);
+    <div class="container">
+        <br><br><br>
+        <h1 style="text-align: center;">{{ quiz.title }}</h1>
+        <h3 style="text-align: right;">Time remaining: <span id="timer"></span></h3>
+        <form id="quizForm" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <label style="font-weight: bold; font-size: 16px;">{{ field.label_tag }}</label><br>
+                {{ field }}
+            {% endfor %}<br>
+            <button type="submit" style="background-color: green; font-size: 30px;">Submit</button>
 
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
+        </form>
+    </div>
 
-            display.textContent = minutes + ":" + seconds;
+    <script>
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            var endInterval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
 
-            if (--timer < 0) {
-                clearInterval(endInterval);
-                document.getElementById("quizForm").submit();
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(endInterval);
+                    submitQuiz(); // Call function to submit the quiz via AJAX
+                }
+            }, 1000);
+        }
+
+        function submitQuiz() {
+            $.ajax({
+                type: "POST",
+                url: window.location.href,
+                data: $('#quizForm').serialize(),
+                success: function (response) {
+                    // Handle success response, such as showing quiz results or redirecting to a new page
+                    console.log(response);
+                },
+                error: function (xhr, status, error) {
+                    // Handle error response
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            var time = {{ total_time_seconds }};
+            var display = document.querySelector('#timer');
+            var startTime = localStorage.getItem('quizStartTime');
+
+            if (startTime) {
+                var elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+                time = time - elapsedTime;
+                if (time < 0) {
+                    time = 0;
+                }
+            } else {
+                localStorage.setItem('quizStartTime', Date.now());
             }
-        }, 1000);
-    }
 
-    window.onload = function () {
-        var time = {{ total_time_seconds }};
-        var display = document.querySelector('#timer');
-        startTimer(time, display);
-    };
-</script>
+            startTimer(time, display);
+        });
+    </script>
 {% endblock %}

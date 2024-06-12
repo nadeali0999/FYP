@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 from django.db import models
 
 from apps.courses.models import Course
@@ -6,7 +7,16 @@ from apps.courses.models import Course
 
 class Quiz(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='quizzes')
-    title = models.CharField(max_length=255)
+    title = models.CharField(
+        max_length=500,
+        validators=[
+            RegexValidator(
+                regex=r'^[^\d]*$',  # Regex to disallow numbers
+                message='Title must not contain numbers.',
+                code='invalid_title'
+            )
+        ]
+    )
     total_time = models.IntegerField(null=True, blank=True)
 
     def __str__(self):

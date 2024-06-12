@@ -1,103 +1,18 @@
-from django.utils import timezone
-
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 
 from .forms import QuizForm
-from .models import Course, Quiz, Question, QuizAttempt, UserAnswer
+from .models import Course, Quiz, QuizAttempt, UserAnswer
+
 
 @login_required
 def quiz_start(request, course_slug, quiz_id):
     course = get_object_or_404(Course, slug=course_slug)
     quiz = get_object_or_404(Quiz, id=quiz_id, course=course)
 
-    context = {
-        'course': course,
-        'quiz': quiz,
-    }
+    context = {'course': course, 'quiz': quiz, }
     return render(request, 'Quiz/quiz_startpage.html', context)
 
-
-# def quiz_detail(request, course_slug, quiz_id):
-#     course = get_object_or_404(Course, slug=course_slug)
-#     quiz = get_object_or_404(Quiz, id=quiz_id)
-#     questions = quiz.questions.all()
-#
-#     if request.method == 'POST':
-#         score = 0
-#         total_questions = questions.count()
-#         correct_answers = {str(question.id): question.correct_answer for question in questions}
-#
-#         # Collect user responses and calculate the score
-#         user_answers = {key: request.POST.get(key) for key in correct_answers.keys()}
-#         for question_id, correct_answer in correct_answers.items():
-#             if user_answers.get(question_id) == correct_answer:
-#                 score += 1
-#
-#         # Calculate additional result data
-#         percent = (score / total_questions) * 100 if total_questions > 0 else 0
-#         return render(request, 'Quiz/quiz_result.html',
-#                       {'course': course, 'quiz': quiz, 'score': score, 'percent': percent, 'correct': score,
-#                        'wrong': total_questions - score, 'total': total_questions})
-#
-#     return render(request, 'Quiz/quiz_detail.html', {'course': course, 'quiz': quiz, 'questions': questions})
-
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from .models import Quiz
-
-from django.template.defaultfilters import register
-
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from .models import Quiz
-from django.template.defaultfilters import register
-
-from django.template.defaultfilters import register
-
-from django.template.defaultfilters import register
-
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from .models import QuizAttempt, Quiz
-from .forms import QuizForm
-
-from django.shortcuts import render
-
-# @login_required
-# def quiz_detail(request, course_slug, quiz_id):
-#     course = get_object_or_404(Course, slug=course_slug)
-#     quiz = get_object_or_404(Quiz, id=quiz_id)
-#     total_time_minutes = quiz.total_time  # Fetching total time from the Quiz model in minutes
-#
-#     # Convert total_time_minutes to seconds for timer function
-#     total_time_seconds = total_time_minutes * 60
-#
-#     if request.method == 'POST':
-#         form = QuizForm(request.POST, quiz=quiz)
-#         if form.is_valid():
-#             quiz_attempt = QuizAttempt.objects.create(user=request.user, quiz=quiz)
-#             score = 0
-#             for question in quiz.questions.all():
-#                 selected_option = form.cleaned_data.get(f'question_{question.id}')
-#                 UserAnswer.objects.create(
-#                     quiz_attempt=quiz_attempt,
-#                     question=question,
-#                     selected_option=selected_option
-#                 )
-#                 if selected_option == question.correct_answer:
-#                     score += 1
-#             quiz_attempt.score = score
-#             quiz_attempt.save()
-#             total_questions = quiz_attempt.quiz.questions.count()
-#             percentage = (score / total_questions) * 100
-#             incorrect_answers = total_questions - score
-#             return render(request, 'Quiz/quiz_result.html', {'quiz_attempt': quiz_attempt, 'percentage': percentage, 'incorrect_answers': incorrect_answers, 'score': score})
-#     else:
-#         form = QuizForm(quiz=quiz)
-#
-#     return render(request, 'Quiz/quiz_detail.html', {'quiz': quiz, 'form': form, 'total_time_seconds': total_time_seconds})
-from django.shortcuts import render
 
 @login_required
 def quiz_detail(request, course_slug, quiz_id):
@@ -115,11 +30,7 @@ def quiz_detail(request, course_slug, quiz_id):
             score = 0
             for question in quiz.questions.all():
                 selected_option = form.cleaned_data.get(f'question_{question.id}')
-                UserAnswer.objects.create(
-                    quiz_attempt=quiz_attempt,
-                    question=question,
-                    selected_option=selected_option
-                )
+                UserAnswer.objects.create(quiz_attempt=quiz_attempt, question=question, selected_option=selected_option)
                 if selected_option == question.correct_answer:
                     score += 1
             quiz_attempt.score = score
@@ -128,10 +39,10 @@ def quiz_detail(request, course_slug, quiz_id):
             percentage = (score / total_questions) * 100
             incorrect_answers = total_questions - score
             print(quiz_attempt)
-            return render(request, 'Quiz/quiz_result.html', {'quiz_attempt': quiz_attempt, 'percentage': percentage, 'incorrect_answers': incorrect_answers, 'score': score})
+            return render(request, 'Quiz/quiz_result.html', {'quiz_attempt': quiz_attempt, 'percentage': percentage,
+                                                             'incorrect_answers': incorrect_answers, 'score': score})
     else:
         form = QuizForm(quiz=quiz)
         print("inelse")
-    return render(request, 'Quiz/quiz_detail.html', {'quiz': quiz, 'form': form, 'total_time_seconds': total_time_seconds})
-
-
+    return render(request, 'Quiz/quiz_detail.html',
+                  {'quiz': quiz, 'form': form, 'total_time_seconds': total_time_seconds})

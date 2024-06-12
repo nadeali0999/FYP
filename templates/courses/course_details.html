@@ -24,7 +24,7 @@
 
                     <div class="mb-4 mb-md-0 me-md-8 me-lg-4 me-xl-8">
                         <h6 class="mb-0">Created by</h6>
-                        <a  class="font-size-sm text-gray-800">{{ course.author.user }}</a>
+                        <a class="font-size-sm text-gray-800">{{ course.author.user }}</a>
                     </div>
 
                     <div class="mb-4 mb-md-0 me-md-8 me-lg-4 me-xl-8">
@@ -179,23 +179,23 @@
                                                 Total Questions: {{ quiz.questions.count }}
                                             </div>
                                             <div>
-                                                    {% if is_enrolled %}
-                                                        {% if all_videos_completed %}
-                                                            {% if quiz_score is not None and quiz_score >= 3 %}
-                                                                 <strong><p style="background: green; color: white">You
-                                                            passed Score = {{ quiz_score  }}</p></strong>
-                                                    {% else %}
+                                                {% if is_enrolled %}
+                                                    {% if all_videos_completed %}
+                                                        {% if quiz_score is not None and quiz_score >= 3 %}
+                                                            <strong><p style="background: green; color: white">You
+                                                                passed Score = {{ quiz_score }}</p></strong>
+                                                        {% else %}
                                                             <div class="quiz-link">
                                                                 <i class="fa fa-unlock" style="font-size:36px;"></i>
                                                                 <a href="{% url 'watch_course' slug=course.slug %}"
                                                                    class="quiz-button">Go Take your quiz</a>
                                                             </div>
- {% endif %}
-                                                        {% else %}
-                                                            <i class="fa fa-lock" style="font-size:36px"></i>
                                                         {% endif %}
+                                                    {% else %}
+                                                        <i class="fa fa-lock" style="font-size:36px"></i>
                                                     {% endif %}
-                                           
+                                                {% endif %}
+
                                             </div>
                                         </div>
                                     </div>
@@ -235,7 +235,7 @@
                                 <div class="me-3 d-flex text-secondary icon-uxs">
                                     <i class='fas fa-book-open' style='font-size:25px'></i>
                                 </div>
-                                 {{ course_count }} courses
+                                {{ course_count }} courses
                             </div>
                         </div>
                     </div>
@@ -264,19 +264,20 @@
                                 <ins class="h2 mb-0">{{ course.price }} $</ins>
                             </div>
                         {% endif %}
-
-                        {% if is_enrolled %}
-                            <a class="btn btn-orange btn-block mb-6" disabled>Already Enrolled</a>
-                        {% else %}
-                            {% if course.price == 0 %}
-                                <a class="btn btn-primary btn-block mb-3"
-                                   href="{% url 'Enrollment' course.slug %}">Enroll</a>
+                        {% if quiz_score is not None and quiz_score >= 3 %}
+                            <a class="btn btn-success btn-block mb-6" >Already Completed</a>
+                            {% if is_enrolled %}
+                                <a class="btn btn-orange btn-block mb-6" disabled>Already Enrolled</a>
                             {% else %}
-                                <a class="btn btn-primary btn-block mb-3"
-                                   href="{% url 'payment_course' course.slug %}">Pay with Card </a>
+                                {% if course.price == 0 %}
+                                    <a class="btn btn-primary btn-block mb-3"
+                                       href="{% url 'Enrollment' course.slug %}">Enroll</a>
+                                {% else %}
+                                    <a class="btn btn-primary btn-block mb-3"
+                                       href="{% url 'payment_course' course.slug %}">Pay with Card </a>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
-
                         <ul class="list-group" style="color: blue">
                             <li class="list-group-item d-flex align-items-center py-3">
                                 <div class="text-secondary d-flex icon-uxs">

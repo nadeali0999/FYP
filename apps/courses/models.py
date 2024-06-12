@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
@@ -37,8 +38,16 @@ class Course(models.Model):
     STATUS = (('PUBLISH', 'PUBLISH'), ('DRAFT', 'DRAFT'),)
 
     featured_image = models.ImageField(upload_to="Media/featured_img", null=True)
-    featured_video = models.CharField(max_length=300, null=True)
-    title = models.CharField(max_length=500)
+    title = models.CharField(
+        max_length=500,
+        validators=[
+            RegexValidator(
+                regex=r'^[^\d]*$',  # Regex to disallow numbers
+                message='Title must not contain numbers.',
+                code='invalid_title'
+            )
+        ]
+    )
     created_at = models.DateField(auto_now_add=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True, blank=True)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)

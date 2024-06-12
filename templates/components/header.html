@@ -54,12 +54,14 @@
                     </a>
 
                 </li>
-                <li class="nav-item dropdown dropdown-full-width">
-                    <a class="nav-link text-gigas" href="{% url 'my_learning' %}">
-                        My Learning
-                    </a>
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown dropdown-full-width">
+                        <a class="nav-link text-gigas" href="{% url 'my_learning' %}">
+                            My Learning
+                        </a>
 
-                </li>
+                    </li>
+                {% endif %}
                 {% if user.is_authenticated %}
                     <li class="nav-item dropdown border-0 px-1 px-md-3">
                         <strong><a class="nav-link dropdown-toggle" id="user" data-bs-toggle="dropdown" href="#"
