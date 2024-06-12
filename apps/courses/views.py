@@ -5,10 +5,16 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.views.generic import TemplateView, ListView
-
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Sum
+from .models import Course, Video
 from apps.courses.models import *
 from apps.payments.models import Enrollment
-from ..Quiz.models import QuizAttempt
+from ..Quiz.models import QuizAttempt, Quiz
+
+from django.shortcuts import redirect
+from django.views.generic import TemplateView
 
 
 class SingleCourseView(TemplateView):
@@ -32,6 +38,7 @@ class SearchCourseView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('query', '')
         return Course.objects.filter(title__icontains=query)
+
 
 
 class course_detailsView(TemplateView):
@@ -74,14 +81,23 @@ class course_detailsView(TemplateView):
         enrolled_students_count = Enrollment.objects.filter(course=self.course).count()
         context['enrolled_students_count'] = enrolled_students_count
 
+        # Fetch the user's quiz attempt score for this course
+        quizzes = self.course.quizzes.all()
+        quiz_attempts = QuizAttempt.objects.filter(user=user, quiz__in=quizzes)
+        quiz_score = None
+
+        if quiz_attempts.exists():
+            # Assume there's only one quiz per course for simplicity
+            quiz_score = quiz_attempts.first().score
+
+        context['quiz_score'] = quiz_score  # Pass the quiz score to the template
+
         return context
 
 
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
-from django.db.models import Sum
-from .models import Course, Video
+
+
 
 @login_required
 def watch_course(request, slug):
@@ -125,16 +141,26 @@ def watch_course(request, slug):
     })
 
 
-
 def my_learning(request):
     user = request.user
-    # Retrieve only the courses the user is enrolled in
     enrolled_courses = Course.objects.filter(enrollment__user=user)
 
-    # Pass the enrolled courses to the template
-    return render(request, 'main/my_learning.html', {'courses': enrolled_courses})
+    course_data = []
+    quizzes = Quiz.objects.filter(course__in=enrolled_courses)
+    quiz_attempts = QuizAttempt.objects.filter(user=user, quiz__in=quizzes)
 
+    quiz_scores = {attempt.quiz.course.id: attempt.score for attempt in quiz_attempts}
 
+    for course in enrolled_courses:
+        score = quiz_scores.get(course.id, None)
+        course_data.append({
+            'course': course,
+            'quiz_score': score
+        })
+
+    return render(request, 'main/my_learning.html', {
+        'course_data': course_data,
+    })
 
 def filter_data(request):
     categories = request.GET.getlist('category[]')

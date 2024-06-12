@@ -179,20 +179,23 @@
                                                 Total Questions: {{ quiz.questions.count }}
                                             </div>
                                             <div>
-{#                                                {% if is_authenticated %}#}
                                                     {% if is_enrolled %}
                                                         {% if all_videos_completed %}
+                                                            {% if quiz_score is not None and quiz_score >= 3 %}
+                                                                 <strong><p style="background: green; color: white">You
+                                                            passed Score = {{ quiz_score  }}</p></strong>
+                                                    {% else %}
                                                             <div class="quiz-link">
                                                                 <i class="fa fa-unlock" style="font-size:36px;"></i>
                                                                 <a href="{% url 'watch_course' slug=course.slug %}"
                                                                    class="quiz-button">Go Take your quiz</a>
                                                             </div>
-
+ {% endif %}
                                                         {% else %}
-                                                            <i class="fa fa-lock" style="font-size:36px">no do this</i>
+                                                            <i class="fa fa-lock" style="font-size:36px"></i>
                                                         {% endif %}
                                                     {% endif %}
-{#                                                {% endif %}#}
+                                           
                                             </div>
                                         </div>
                                     </div>

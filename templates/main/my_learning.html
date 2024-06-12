@@ -2,107 +2,40 @@
 {% load static %}
 {% block title %} My Learning {% endblock %}
 {% block content %}
-    <style>
-
-
-        .course-container {
-            margin-left: 350px;
-            display: flex;
-            align-items: center;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 40px; /* Increased padding */
-            max-width: 1000px; /* Increased max-width */
-            width: 100%;
-        }
-
-        .course-icon {
-            display: flex; /* Use flexbox */
-            align-items: center; /* Align items vertically */
-        }
-
-        .course-icon img {
-            width: 80px; /* Increased image size */
-            height: 80px; /* Increased image size */
-            border-radius: 4px;
-            margin-right: 10px; /* Add some space between image and title */
-        }
-
-        .course-details {
-            flex: 1;
-            margin-left: 24px; /* Increased margin */
-        }
-
-        .course-details h2 {
-            margin: 0 0 12px 0; /* Increased margin */
-            font-size: 24px; /* Increased font size */
-            color: #007bff;
-
-        }
-
-        .course-details p {
-            margin-left: 70px;
-            font-size: 16px; /* Increased font size */
-            color: #555;
-        }
-
-        .course-actions {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .go-to-course {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 12px 24px; /* Increased padding */
-            cursor: pointer;
-            margin-bottom: 12px; /* Increased margin */
-            font-size: 16px; /* Increased font size */
-        }
-
-        .go-to-course:hover {
-            background-color: #0056b3;
-        }
-
-
-    </style>
-    <br>
-    <div class="course-container">
-        {% if courses %}
-            {% for course in courses %}
-                <div class="course-item">
-                    <div class="course-icon">
-                        <img src="{{ course.featured_image.url }}" alt="Course Image">
-                        <h2>{{ course.title }}</h2>
-                    </div>
-                    <div class="course-details">
-                        <p><strong>{{ course.category.name }}</strong></p>
-                        <p>{{ course.description|slice:":400" }}......</p>
-                    </div>
-                    <div class="course-actions">
-                        <a href="{{ course.get_slug }}">
-                            <button style="background: midnightblue" class="go-to-course">Go To Course</button>
-                        </a>
-                        {% if course.status == 'PUBLISH' %}
-                            <strong><p style="background: green; color: #ffffff; font-size:19px;">Enrolled</p></strong>
-                        {% else %}
-                            <strong><p style="background: red; color: #ffffff;">Not Enrolled</p></strong>
-                        {% endif %}
+<div class="container">
+    <div class="row">
+        {% for data in course_data %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body d-flex">
+                        <img src="{{ data.course.featured_image.url }}" alt="Course Image" class="mr-3"
+                             style="width: 50px; height: 50px; border-radius: 4px;">
+                        <div>
+                            <h2 class="card-title mb-1">{{ data.course.title }}</h2>
+                            <p class="card-text"><strong>{{ data.course.category.name }}</strong></p>
+                            <p class="card-text">{{ data.course.description|slice:":400" }}......</p>
+                            <div class="quiz-status">
+                                {% if data.quiz_score is not None %}
+                                    {% if data.quiz_score >= 3 %}
+                                        <p class="bg-success text-black " style="font-weight: bold; font-size: 18px; color: black">Quiz Score: {{ data.quiz_score }}</p>
+                                        <p class="bg-success text-black" style="font-weight: bold; font-size: 18px; color: black">Congratulations! You passed this course</p>
+                                    {% else %}
+                                        <p style="background: green;color: white; font-weight: bold; font-size: 18px;">You are Enrolled in this Course</p>
+                                    {% endif %}
+                                {% else %}
+                                    <p style="background: green;color: white; font-weight: bold; font-size: 18px;">You are Enrolled in this Course</p>
+                                {% endif %}
+                            </div>
+                            <a href="{{ data.course.get_slug }}" class="btn btn-primary">Go To Course</a>
+                        </div>
                     </div>
                 </div>
-            {% endfor %}
-        {% else %}
-            <div class="no-courses">
-                <strong><p style="font-size: 35px; color: red;padding-left: 180px">You are not enrolled in any course.</p></strong>
             </div>
-        {% endif %}
+        {% endfor %}
     </div>
+</div>
 
 
-    <br><br><br><br><br><br><br><br><br><br><br><br>
+
+    <br><br><br><br><br><br>
 {% endblock %}
