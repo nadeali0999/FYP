@@ -24,12 +24,12 @@
 
                     <div class="mb-4 mb-md-0 me-md-8 me-lg-4 me-xl-8">
                         <h6 class="mb-0">Created by</h6>
-                        <a href="#" class="font-size-sm text-gray-800">{{ course.author.name }}</a>
+                        <a  class="font-size-sm text-gray-800">{{ course.author.user }}</a>
                     </div>
 
                     <div class="mb-4 mb-md-0 me-md-8 me-lg-4 me-xl-8">
                         <h6 class="mb-0">Category</h6>
-                        <a href="#" class="font-size-sm text-gray-800">{{ course.category }}</a>
+                        <a class="font-size-sm text-gray-800">{{ course.category }}</a>
                     </div>
 
 
@@ -78,7 +78,7 @@
                     <div class="row row-cols-lg-2 mb-8">
                         <div class="col-md">
                             <ul class="list-style-v1 list-unstyled">
-                                {% for i in course.what_to_learn_set.all|slice:":5" %}
+                                {% for i in course.what_to_learn_set.all|slice:":7" %}
                                     <li>{{ i.points }}</li>
                                 {% endfor %}
                             </ul>
@@ -133,11 +133,11 @@
                                                     {% if is_enrolled %}
                                                         <a href="{% url 'watch_course' slug=course.slug %}">{{ video.title }}</a>
                                                     {% endif %}
-                                                    {% if not is_enrolled %}
-                                                        {#                                                         and video.preview #}
+                                                    {% if not is_enrolled and video.preview %}
+                                                        {#                                                          #}
                                                         <a href="https://www.youtube.com/watch?v={{ video.youtube_id }}"
                                                            class="text-secondary">{{ video.title }}</a>
-                                                    {% elif not is_enrolled %}
+                                                    {% elif not is_enrolled and video.preview %}
                                                         {#                                                        and not video.preview #}
                                                         <span class="text-secondary" data-toggle="tooltip"
                                                               title="Enroll in the course to watch more">{{ video.title }}</span>
@@ -179,18 +179,20 @@
                                                 Total Questions: {{ quiz.questions.count }}
                                             </div>
                                             <div>
-                                                {% if is_enrolled %}
-                                                    {% if all_videos_completed %}
-                                                        <div class="quiz-link">
-                                                            <i class="fa fa-unlock" style="font-size:36px;"></i>
-                                                            <a href="{% url 'watch_course' slug=course.slug %}"
-                                                               class="quiz-button">Go Take your quiz</a>
-                                                        </div>
+{#                                                {% if is_authenticated %}#}
+                                                    {% if is_enrolled %}
+                                                        {% if all_videos_completed %}
+                                                            <div class="quiz-link">
+                                                                <i class="fa fa-unlock" style="font-size:36px;"></i>
+                                                                <a href="{% url 'watch_course' slug=course.slug %}"
+                                                                   class="quiz-button">Go Take your quiz</a>
+                                                            </div>
 
-                                                    {% else %}
-                                                        <i class="fa fa-lock" style="font-size:36px"></i>
+                                                        {% else %}
+                                                            <i class="fa fa-lock" style="font-size:36px">no do this</i>
+                                                        {% endif %}
                                                     {% endif %}
-                                                {% endif %}
+{#                                                {% endif %}#}
                                             </div>
                                         </div>
                                     </div>
@@ -211,7 +213,7 @@
                             </div>
                         </div>
                         <div class="media-body">
-                            <h4 class="mb-0">{{ course.author.name }}</h4>
+                            <h4 class="mb-0">{{ course.author.user }}</h4>
                             <span>{{ course.author.profession }}</span>
                         </div>
                     </div>
@@ -230,7 +232,7 @@
                                 <div class="me-3 d-flex text-secondary icon-uxs">
                                     <i class='fas fa-book-open' style='font-size:25px'></i>
                                 </div>
-                                {{ course.count }} courses
+                                 {{ course_count }} courses
                             </div>
                         </div>
                     </div>

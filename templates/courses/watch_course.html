@@ -122,15 +122,36 @@
                                         <div>
                                             {% if is_enrolled %}
                                                 {% if all_videos_completed %}
-                                               <a href="{% url 'quiz_start' course_slug=course.slug quiz_id=quiz.id %}" class="btn btn-sm btn-primary px-6 mb-3 mb-md-0 flex-shrink-0">Take Quiz</a>
-
-
-
+                                                   {% if quiz_score is not None and quiz_score >= 3 %}
+                                                        <strong><p style="background: green; color: white">You
+                                                            passed Score: {{ quiz_score  }}</p></strong>
+                                                    {% else %}
+                                                        <a href="{% url 'quiz_start' course_slug=course.slug quiz_id=quiz.id %}"
+                                                           class="btn btn-sm btn-primary px-6 mb-3 mb-md-0 flex-shrink-0">Take
+                                                            Quiz</a>
+                                                    {% endif %}
                                                 {% else %}
                                                     <strong><p style="background: red; color: white">Watch All videos to
                                                         unlock</p></strong>
                                                 {% endif %}
                                             {% endif %}
+
+
+                                            {#                                            {% if is_enrolled %}#}
+{#                                                {% if all_videos_completed %}#}
+{#                                                    {% if score >= 3 %}#}
+{#                                                        <strong><p style="background: green; color: white">You#}
+{#                                                            passed</p></strong>#}
+{#                                                    {% else %}#}
+{#                                                        <a href="{% url 'quiz_start' course_slug=course.slug quiz_id=quiz.id %}"#}
+{#                                                           class="btn btn-sm btn-primary px-6 mb-3 mb-md-0 flex-shrink-0">Take#}
+{#                                                            Quiz</a>#}
+{#                                                    {% endif %}#}
+{#                                                {% else %}#}
+{#                                                    <strong><p style="background: red; color: white">Watch All videos to#}
+{#                                                        unlock</p></strong>#}
+{#                                                {% endif %}#}
+{#                                            {% endif %}#}
                                         </div>
                                     </div>
                                 </div>
@@ -176,33 +197,33 @@
             </div>
         </div>
     </div>
-<a href="/chat/" class="btn btn-sm btn-primary ms-md-6 px-6 mb-3 mb-md-0 flex-shrink-0 chat-button">Chat with Instructor</a>
+    <a href="/chat/" class="btn btn-sm btn-primary ms-md-6 px-6 mb-3 mb-md-0 flex-shrink-0 chat-button">Chat with
+        Instructor</a>
 
 </div>
 
 <style>
 
-      .chat-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: midnightblue; /* Primary color */
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-        }
+    .chat-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: midnightblue; /* Primary color */
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+    }
 
 
 </style>
 
 <script>
-    
 
-        // Close the chat box when clicking outside of it
-       
-  
+
+    // Close the chat box when clicking outside of it
+
 
 </script>

@@ -8,6 +8,7 @@ from django.views.generic import TemplateView, ListView
 
 from apps.courses.models import *
 from apps.payments.models import Enrollment
+from ..Quiz.models import QuizAttempt
 
 
 class SingleCourseView(TemplateView):
@@ -54,7 +55,7 @@ class course_detailsView(TemplateView):
         context['time_duration'] = total_duration
 
         user = self.request.user
-        is_enrolled = Enrollment.objects.filter( course=self.course).exists()
+        is_enrolled = Enrollment.objects.filter(course=self.course, user=user).exists()
         context['is_enrolled'] = is_enrolled
 
         # Fetch all videos related to the course
@@ -65,8 +66,22 @@ class course_detailsView(TemplateView):
         all_videos_completed = all(video.is_completed for video in videos)
         context['all_videos_completed'] = all_videos_completed
 
+        # Calculate the course count
+        course_count = Course.objects.count()
+        context['course_count'] = course_count
+
+        # Calculate the number of enrolled students for the course
+        enrolled_students_count = Enrollment.objects.filter(course=self.course).count()
+        context['enrolled_students_count'] = enrolled_students_count
+
         return context
 
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Sum
+from .models import Course, Video
 
 @login_required
 def watch_course(request, slug):
@@ -91,11 +106,24 @@ def watch_course(request, slug):
     # Check if all videos are marked as complete
     all_videos_completed = all(video.is_completed for video in lectures)
 
-    return render(request, 'courses/watch_course.html',
-                  {'course': course, 'time_duration': time_duration, 'is_enrolled': is_enrolled, 'video': video,
-                      'all_videos_completed': all_videos_completed,
-                      # Pass the flag indicating if all videos are completed
-                  })
+    # Fetch the user's quiz attempt score for this course
+    quizzes = course.quizzes.all()
+    quiz_attempts = QuizAttempt.objects.filter(user=request.user, quiz__in=quizzes)
+    quiz_score = None
+
+    if quiz_attempts.exists():
+        # Assume there's only one quiz per course for simplicity
+        quiz_score = quiz_attempts.first().score
+
+    return render(request, 'courses/watch_course.html', {
+        'course': course,
+        'time_duration': time_duration,
+        'is_enrolled': is_enrolled,
+        'video': video,
+        'all_videos_completed': all_videos_completed,
+        'quiz_score': quiz_score,  # Pass the quiz score to the template
+    })
+
 
 
 def my_learning(request):
