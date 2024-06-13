@@ -15,8 +15,11 @@ SECRET_KEY = 'django-insecure-nby_6ai&ozs1v)0!!apmbyutq8z%c&s-o4h73+nvh&!^iw&ram
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# handler404 = 'core.views.my_custom_page_not_found_view'
+# # FYP/settings.py
+#
+# ALLOWED_HOSTS = ['example.com', 'www.example.com', 'localhost', '127.0.0.1']
 
-ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -138,8 +141,9 @@ STRIPE_PUBLISHABLE_KEY = 'pk_test_TYooMQauvdEDq54NiTphI7jx'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'shah.gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'nadeali05555@gmail.com'
-EMAIL_HOST_PASSWORD = '+~~syedshah~~+'
+EMAIL_HOST_USER = 'your_email@gmail.com'  # Replace with your Gmail address
+EMAIL_HOST_PASSWORD = 'your_password'     # Replace with your Gmail password or an app-specific password

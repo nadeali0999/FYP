@@ -264,19 +264,23 @@
                                 <ins class="h2 mb-0">{{ course.price }} $</ins>
                             </div>
                         {% endif %}
-                        {% if is_enrolled %}
-                            {% if  quiz_score >= 3 %}
-                                <a class="btn btn-success btn-block mb-6">Already Completed Course</a>
-                            {% endif %}
-                            <a class="btn btn-orange btn-block mb-6" disabled>Already Enrolled</a>
-                        {% else %}
-                            {% if course.price == 0 %}
-                                <a class="btn btn-primary btn-block mb-3" href="{% url 'Enrollment' course.slug %}">Enroll</a>
-                            {% else %}
-                                <a class="btn btn-primary btn-block mb-3" href="{% url 'payment_course' course.slug %}">Pay
-                                    with Card</a>
-                            {% endif %}
-                        {% endif %}
+{% if is_enrolled %}
+    {% if quiz_score >= 3 %}
+        <a class="btn btn-success btn-block mb-6">Already Completed Course</a>
+    {% endif %}
+    <a class="btn btn-orange btn-block mb-6" disabled>Already Enrolled</a>
+{% else %}
+    {% if user.is_authenticated %}
+        {% if course.price == 0 %}
+            <a class="btn btn-primary btn-block mb-3" href="{% url 'Enrollment' course.slug %}">Enroll</a>
+        {% else %}
+            <a class="btn btn-primary btn-block mb-3" href="{% url 'payment_course' course.slug %}">Pay with Card</a>
+        {% endif %}
+    {% else %}
+        <a class="btn btn-primary btn-block mb-3" href="{% url 'login' %}?next={% url 'course_details' course.slug %}">Login to Enroll</a>
+    {% endif %}
+{% endif %}
+
 
                         <ul class="list-group" style="color: blue">
                             <li class="list-group-item d-flex align-items-center py-3">

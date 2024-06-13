@@ -62,8 +62,23 @@ class course_detailsView(TemplateView):
         context['time_duration'] = total_duration
 
         user = self.request.user
-        is_enrolled = Enrollment.objects.filter(course=self.course, user=user).exists()
-        context['is_enrolled'] = is_enrolled
+        if user.is_authenticated:
+            is_enrolled = Enrollment.objects.filter(course=self.course, user=user).exists()
+            context['is_enrolled'] = is_enrolled
+
+            # Fetch the user's quiz attempt score for this course
+            quizzes = self.course.quizzes.all()
+            quiz_attempts = QuizAttempt.objects.filter(user=user, quiz__in=quizzes)
+            quiz_score = None
+
+            if quiz_attempts.exists():
+                # Assume there's only one quiz per course for simplicity
+                quiz_score = quiz_attempts.first().score
+
+            context['quiz_score'] = quiz_score  # Pass the quiz score to the template
+        else:
+            context['is_enrolled'] = False
+            context['quiz_score'] = None
 
         # Fetch all videos related to the course
         videos = Video.objects.filter(course=self.course)
@@ -81,18 +96,8 @@ class course_detailsView(TemplateView):
         enrolled_students_count = Enrollment.objects.filter(course=self.course).count()
         context['enrolled_students_count'] = enrolled_students_count
 
-        # Fetch the user's quiz attempt score for this course
-        quizzes = self.course.quizzes.all()
-        quiz_attempts = QuizAttempt.objects.filter(user=user, quiz__in=quizzes)
-        quiz_score = None
-
-        if quiz_attempts.exists():
-            # Assume there's only one quiz per course for simplicity
-            quiz_score = quiz_attempts.first().score
-
-        context['quiz_score'] = quiz_score  # Pass the quiz score to the template
-
         return context
+
 
 
 

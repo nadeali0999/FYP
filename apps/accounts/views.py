@@ -97,7 +97,7 @@ class loginView(TemplateView):
 
 def logout_view(request):
     logout(request)
-    return redirect('home')
+    return redirect('login')
 
 class homeView(TemplateView):
     template_name = 'main/home.html'  # Ensure you specify your template
