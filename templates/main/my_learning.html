@@ -16,7 +16,6 @@
                             <p class="card-text"><strong>{{ data.course.category.name }}</strong></p>
                             <p class="card-text">{{ data.course.description|slice:":400" }}......</p>
                             <div class="quiz-status">
-                            {{ data.quiz_score }}
                                 {% if data.quiz_score is not None %}
                                     {% if data.quiz_score >= 3 %}
                                         <p class="bg-success text-black " style="font-weight: bold; font-size: 18px; color: black">Quiz Score: {{ data.quiz_score }}</p>
